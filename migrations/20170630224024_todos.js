@@ -1,6 +1,6 @@
 exports.up = function(knex, Promise) {
   return knex.schema.createTable('todos', function(table) {
-    table.string('todo_id').unique();
+    table.increments('todo_id').primary();
     table.string('todo');
     table.boolean('complete');
   })
