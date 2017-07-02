@@ -1,0 +1,72 @@
+html {
+  font-size: 62.5%;
+  font-family: serif;
+}
+
+body {
+  font-size: 1.8rem;
+  font-family: Verdana, Geneva, sans-serif;
+  line-height: 1.618;
+  max-width: 38em;
+  margin: auto;
+  color: #4a4a4a;
+  background-color: #f9f9f9;
+  padding: 13px;
+}
+
+h1 {
+  line-height: 1.1;
+  font-family: Verdana, Geneva, sans-serif;
+  font-weight: 400;
+  font-size: 2em;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -ms-word-break: break-all;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+hr {
+  border-color: #338618;
+}
+
+ul {
+  padding-left: 1.4em;
+}
+
+li {
+  margin-bottom: 0.4em;
+  list-style-type: none;
+}
+
+input {
+  width: 100%;
+  font-size: 1em;
+  font-weight: 200;
+  padding: .25em .5em;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: .25em;
+  box-sizing: border-box;
+}
+
+.toggle-item {
+  background: url("http://www.clipartbest.com/cliparts/eTM/ybA/eTMybALqc.png");
+  margin-left: 1em;
+}
+
+.delete-item {
+  background: url("https://tse2.mm.bing.net/th?id=OIP.AJYQyhcT7aCNufhhzvX0cwCACA");
+}
+
+.toggle-item,
+.delete-item {
+  background-size: 2.5em;
+  height: 2.5em;
+  width: 2.5em;
+  border: none;
+  float: right;
+}
