@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const cors = require('cors');
 
 const app = express();
 
@@ -16,6 +17,7 @@ const knex = require('knex')({
   useNullAsDefault: true
 });
 
+app.use(cors());
 
 //Routes
 app.get('/todos', (req, res, next) => {
@@ -28,14 +30,20 @@ app.post('/todos', (req, res, next) => {
 
   knex('todos')
   .insert(todo)
-  .then(() => res.send(todo));
+  .then(todoId => {
+    knex('todos')
+    .where('todo_id', '=', todoId[0])
+    .then(todo => res.send(todo))
+    // console.log(bleh);
+    // res.send(bleh);
+  });
 });
 
-app.put('/todos', (req, res, next) => {
-  const todoId = req.body.todo_id;
+app.put('/todos/:todoId', (req, res, next) => {
+  const todo = req.params.todoId;
   let status;
 
-  req.body.complete ? status = 0 : status = 1;
+  req.body.complete ? status = false : status = true;
 
   knex('todos')
   .where('todo_id', '=', todoId)
@@ -50,14 +58,13 @@ app.put('/todos', (req, res, next) => {
 });
 
 app.delete('/todos/:todoId', (req, res, next) => {
-  const todoId = req.params.todoId;
+  const todo = req.params.todoId;
 
   knex('todos')
   .where('todo_id', todoId)
   .del()
-  .then(() => {
-    knex.select().table('todos')
-    .then(todos => res.send(todos));
+  .then(response => {
+    res.send(response);
   });
 });
 
