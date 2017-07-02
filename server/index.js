@@ -58,13 +58,13 @@ app.put('/todos/:todoId', (req, res, next) => {
 });
 
 app.delete('/todos/:todoId', (req, res, next) => {
-  const todo = req.params.todoId;
+  const todoId = req.params.todoId;
 
   knex('todos')
   .where('todo_id', todoId)
   .del()
-  .then(response => {
-    res.send(response);
+  .then(() => {
+    res.sendStatus(202);
   });
 });
 

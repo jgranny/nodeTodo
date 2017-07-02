@@ -8,9 +8,9 @@ $.ajax({
   success: function(data) {
     data.map(function(todo) {
       if (todo.complete) {
-        $('.complete .completed-items').append(addCompleteTodo(todo.todo));
+        $('.complete .completed-items').append(addCompleteTodo(todo.todo, todo.todo_id));
       } else {
-        $('.todo .todo-items').append(addTodo(todo.todo));
+        $('.todo .todo-items').append(addTodo(todo.todo, todo.todo_id));
       }
     })
   },
@@ -19,35 +19,38 @@ $.ajax({
 
 //Add todo list item
 $(".todo-input").keypress(function(e) {
-  const todo = $('.todo-input').val();
+  const initTodo = $('.todo-input').val();
   const data = JSON.stringify({
-    todo,
+    todo: initTodo,
     complete: 0
   });
 
   if (e.which === 13) {
-    $('.todo .todo-items').append(addTodo(todo));
     $('.todo-input').val('');
 
-    //send ajax to post todo
+    //send post to add todo to database
     $.ajax({
       method: 'POST',
       url: `http://${URL}:8080/todos`,
       contentType: 'application/json',
       data: data,
-      success: function(res) { console.log(res) },
+      success: function(res) {
+        const todo = res[0];
+
+        $('.todo .todo-items').append(addTodo(todo.todo, todo.todo_id));
+      },
       error: function(err) { console.log('Error: ', err) }
     });
   }
 })
 
 //Create list item
-function addTodo(todo) {
-  return '<li class="todo-item">' + todo + '<button value="todo" class="toggle-item"></button><button class="delete-item"></button></li>'
+function addTodo(todo, todoId) {
+  return `<li class="todo-item" data-todo-id=${todoId}>${todo}<button value="todo" class="toggle-item"></button><button class="delete-item"></button></li>`
 };
 
-function addCompleteTodo(todo) {
-  return '<li class="todo-item">' + todo + '<button value="complete" class="toggle-item"></button><button class="delete-item"></button></li>'
+function addCompleteTodo(todo, todoId) {
+  return `<li class="todo-item" data-todo-id=${todoId}>${todo}<button value="complete" class="toggle-item"></button><button class="delete-item"></button></li>`
 }
 
 //Remove list item
