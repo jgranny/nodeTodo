@@ -40,7 +40,7 @@ app.post('/todos', (req, res, next) => {
 });
 
 app.put('/todos/:todoId', (req, res, next) => {
-  const todo = req.params.todoId;
+  const todoId = req.params.todoId;
   let status;
 
   req.body.complete ? status = false : status = true;

@@ -8,7 +8,7 @@ $.ajax({
   success: function(data) {
     data.map(function(todo) {
       if (todo.complete) {
-        $('.complete .completed-items').append(addCompleteTodo(todo.todo, todo.todo_id));
+        $('.completed .completed-items').append(addCompleteTodo(todo.todo, todo.todo_id));
       } else {
         $('.todo .todo-items').append(addTodo(todo.todo, todo.todo_id));
       }
@@ -55,19 +55,15 @@ function addCompleteTodo(todo, todoId) {
 
 //Remove list item
 $(document).on("click", '.delete-item', function() {
-  const todo = $(this).text();
-  const data = JSON.stringify({
-    todo
-  });
+  const todoId = $(this).parent().attr('data-todo-id');
 
   $(this).parent().remove();
 
   //Send delete to remove item from database
   $.ajax({
     method: 'DELETE',
-    url: `http://${URL}:8080/todos`,
+    url: `http://${URL}:8080/todos/${todoId}`,
     contentType: 'application/json',
-    data: data,
     success: function(res) { console.log(res) },
     error: function(err) { console.log('Error: ', err) }
   });
@@ -76,10 +72,10 @@ $(document).on("click", '.delete-item', function() {
 
 //Toggle item location (todo / complete)
 $(document).on("click", '.toggle-item', function() {
-  const todo = $(this).text();
+  const todoId = $(this).parent().attr('data-todo-id');
+  const todo = $(this).parent().text();
   let complete;
   let data = {
-    todo,
     complete: null
   };
 
@@ -98,7 +94,7 @@ $(document).on("click", '.toggle-item', function() {
   //Send post to update todo's status in database
   $.ajax({
     method: 'PUT',
-    url: `http://${URL}:8080/todos`,
+    url: `http://${URL}:8080/todos/${todoId}`,
     contentType: 'application/json',
     data: JSON.stringify(data),
     success: function(res) { console.log(res) },
